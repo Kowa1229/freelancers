@@ -8,6 +8,9 @@ gem 'rails', '~> 5.2.2'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 
+# Bootstrap
+gem 'bootstrap-sass', '~> 3.3.7'
+
 # Active Admins
 gem 'devise'
 gem 'activeadmin'
