@@ -8,9 +8,6 @@ gem 'rails', '~> 5.2.2'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 
-# Bootstrap
-gem 'bootstrap-sass', '~> 3.3.7'
-
 # Secure Password
 gem 'bcrypt', '3.1.12'
 
@@ -75,3 +72,8 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+
+
+# Bootstrap
+gem 'bootstrap-sass', '3.3.7'
