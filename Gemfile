@@ -11,9 +11,16 @@ gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 # Bootstrap
 gem 'bootstrap-sass', '~> 3.3.7'
 
+# Secure Password
+gem 'bcrypt', '3.1.12'
+
 # Active Admins
 gem 'devise'
 gem 'activeadmin'
+
+=begin
+Above are added by myself
+=end
 
 # Use Puma as the app server
 gem 'puma', '~> 3.11'

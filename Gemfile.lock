@@ -259,6 +259,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin
+  bcrypt (= 3.1.12)
   bootsnap (>= 1.1.0)
   bootstrap-sass (~> 3.3.7)
   byebug
