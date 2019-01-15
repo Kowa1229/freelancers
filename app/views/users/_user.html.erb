@@ -1,0 +1,10 @@
+<li>
+  <p><i>Full Name    :</i> <%= link_to user.fullname, user %></p>
+  <p><i>Username     :</i> <%= user.username %></p>
+  <p><i>Email address:</i> <%= user.email %></p>
+
+  <% if !current_user?(user) %>
+    <%= link_to "delete", user, method: :delete,
+              data: { confirm: "You sure?" } %>
+  <% end %>
+</li>

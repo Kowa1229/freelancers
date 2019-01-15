@@ -15,6 +15,13 @@ gem 'bcrypt', '3.1.12'
 gem 'devise'
 gem 'activeadmin'
 
+# faker for generate random users
+gem 'faker',                   '1.7.3'
+
+# for paging
+gem 'will_paginate',           '3.1.6'
+gem 'bootstrap-will_paginate', '1.0.0'
+
 =begin
 Above are added by myself
 =end
