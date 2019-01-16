@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'public/feedback'
 
   resources :users
+  resources :account_activations, only: [:edit]
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
