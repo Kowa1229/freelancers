@@ -15,8 +15,19 @@
     </p>
     <p><%= @user.username %></p>
     <p><%= @user.email %></p>
+    <hr>
+    Professionals
+    <ul>
+      <% @user.categories.each do |categ| %>
+      <li>
+        <%= categ.name %>
+      </li>
+      <% end %>
+    </ul>
+    <hr/>
+
   </div>
   <div class="col-md-9">
-    Some features or histories would be shown here.
+    <p>Some features or histories would be shown here.</p>
   </div>
 </div>

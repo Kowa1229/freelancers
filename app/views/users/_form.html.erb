@@ -16,5 +16,14 @@
   <%= f.label :password_confirmation, "Confirmation" %>
   <%= f.password_field :password_confirmation, class: 'form-control' %>
 
+  <span>Professionals</span>
+  <% for category in Category.all %>
+    <div class="checkbox_tag_input">
+      <%= check_box_tag "user[category_ids][]", category.id, @user.categories.include?(category),
+                        {:id => dom_id(category, dom_id(@user)) } %>
+      <%= category.name %>
+    </div>
+  <% end %>
+
   <%= f.submit "Save changes", class: "btn btn-primary" %>
 <% end %>

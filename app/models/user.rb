@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  # has_many :user_category, dependent: :destroy
+  has_and_belongs_to_many :categories
 
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email

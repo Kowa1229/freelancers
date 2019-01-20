@@ -13,6 +13,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    # @user_categories = Category.find(current_user.user_category.ids)
+    # @categories = Category.all
+    # @user_categories = current_user.user_category.build
   end
 
   def edit
@@ -26,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params) # Not the final implementation!
+    @user = User.new(user_params)
     if @user.save
       # Handle a successful save.
       # log_in @user
@@ -43,6 +46,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    params[:user][:category_ids] ||= []
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
       # Handle a successful update.
@@ -55,8 +59,9 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:fullname, :username, :email,
-                                 :password, :password_confirmation)
+    # params.require(:user).permit(:fullname, :username, :email,
+    #                              :password, :password_confirmation)
+    params.require(:user).permit!
   end
 
   # Confirms a logged-in user.
