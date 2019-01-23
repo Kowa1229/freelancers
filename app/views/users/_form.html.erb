@@ -1,11 +1,14 @@
 <%= form_for(@user) do |f| %>
-  <%= render 'shared/error_messages' %>
+  <%= render 'shared/error_messages', object: f.object %>
 
   <%= f.label :fullname %>
   <%= f.text_field :fullname, class: 'form-control' %>
 
   <%= f.label :username %>
   <%= f.text_field :username, class: 'form-control' %>
+
+  <%= f.label :city_id %>
+  <%= f.collection_select(:city_id, City.all, :id, :name, class: 'form_control') %>
 
   <%= f.label :email %>
   <%= f.email_field :email, class: 'form-control' %>
