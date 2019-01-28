@@ -1,0 +1,5 @@
+<%= form_for(current_user.appointment_applicant.build) do |f| %>
+  <div><%= hidden_field_tag :appointment_id, @appointment.id %></div>
+  <div><%= hidden_field_tag :user_id, current_user.id %></div>
+  <%= f.submit "Send Request", class: "btn btn-info" %>
+<% end %>

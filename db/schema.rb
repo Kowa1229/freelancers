@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_071536) do
+ActiveRecord::Schema.define(version: 2019_01_28_122010) do
 
   create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "namespace"
@@ -36,6 +36,18 @@ ActiveRecord::Schema.define(version: 2019_01_28_071536) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "appointment_applications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "appointment_id"
+    t.integer "status", default: 1
+    t.boolean "send_by_employer", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appointment_id", "user_id"], name: "index_appointment_applications_on_appointment_id_and_user_id", unique: true
+    t.index ["appointment_id"], name: "index_appointment_applications_on_appointment_id"
+    t.index ["user_id"], name: "index_appointment_applications_on_user_id"
   end
 
   create_table "appointment_sessions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

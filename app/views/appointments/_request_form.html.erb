@@ -1,0 +1,7 @@
+<div id="request_form">
+  <% if @appointment.applicant_include?(current_user) %>
+    <%= render 'cancel_request' %>
+  <% else %>
+    <%= render 'request' %>
+  <% end %>
+</div>

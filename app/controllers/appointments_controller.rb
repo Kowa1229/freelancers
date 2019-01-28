@@ -24,6 +24,7 @@ class AppointmentsController < ApplicationController
 
   def index
     @appointments = Appointment.all
+    # @appointments = current_user.opportunities(current_user.category_ids, current_user.city_id)
   end
 
   def show

@@ -4,6 +4,11 @@ class User < ApplicationRecord
   has_many :appointments
   has_and_belongs_to_many :categories
 
+  has_many :appointment_applicant, class_name: "AppointmentApplication",
+           foreign_key: "user_id"
+
+  has_many :application, through: :appointment_applicant, source: :user
+
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email
   before_create :create_activation_digest
@@ -60,6 +65,10 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, nil)
   end
 
+
+  def opportunities(category_ids, city_id)
+    Appointment.where("category_id IN (?) AND city_id = ? ", category_ids, city_id)
+  end
 
 
   # Activates an account.
