@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
 
+  get '/opportunities', to: 'appointments#index'
   get '/signup',   to: 'users#new'
   root 'public#home'
 
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
   resources :users
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :appointments,        only: [:new, :show, :create, :edit, :update, :destroy]
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

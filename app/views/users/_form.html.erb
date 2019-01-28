@@ -8,10 +8,20 @@
   <%= f.text_field :username, class: 'form-control' %>
 
   <%= f.label :city_id %>
-  <%= f.collection_select(:city_id, City.all, :id, :name, class: 'form_control') %>
+  <%= f.collection_select :city_id, City.all, :id, :name, {prompt: "Select a city"}, {class: "form-control"} %>
 
   <%= f.label :email %>
   <%= f.email_field :email, class: 'form-control' %>
+
+  <% if @user.new_record? %>
+      <div class="radio_button_input">
+        <%= f.label :employer, "You're registered to become a..." %><br />
+        <%= f.label :employer, "Employer", :value => "true"  %>
+        <%= f.radio_button :employer, true %>
+        <%= f.label :employer, "Freelancer", :value => "false" %>
+        <%= f.radio_button :employer, false %>
+      </div>
+  <% end %>
 
   <%= f.label :password %>
   <%= f.password_field :password, class: 'form-control' %>

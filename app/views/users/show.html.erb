@@ -7,7 +7,7 @@
       </div>
       <div class="float-right">
 
-        <%= link_to edit_user_path(current_user) do %>
+        <%= link_to edit_user_path(@user) do %>
           <i class="glyphicon glyphicon-pencil"></i>
         <% end %>
 
@@ -15,7 +15,9 @@
     </p>
     <p><%= @user.username %></p>
     <p><%= @user.email %></p>
-    <p><%= @user.city.name %></p>
+    <% if @user.city %>
+      <p><%= @user.city.name %></p>
+    <% end %>
     <hr>
     Professionals
     <ul>

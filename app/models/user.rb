@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   # has_many :user_category, dependent: :destroy
   belongs_to :city
+  has_many :appointments
   has_and_belongs_to_many :categories
 
   attr_accessor :remember_token, :activation_token, :reset_token
@@ -19,6 +20,8 @@ class User < ApplicationRecord
             uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }
   # validates :profile_picture, presence: true
+  # city_id
+  # employer 1 = employer, 0 = freelancers
 
 
 

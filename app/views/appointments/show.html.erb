@@ -1,0 +1,11 @@
+<%= provide(:title, @appointment.title) %>
+
+<%= @appointment.title %> <br/>
+<%= @appointment.user.fullname %> <br/>
+<%= @appointment.category.name %> <br/>
+<%= @appointment.city.name %> <br/>
+<%= @appointment.pax %> pax<br/>
+<%= @appointment.description %> <br/>
+<%= @appointment.status_name(@appointment.status) %> <br/>
+<%= @appointment.address %> <br/>
+<%= @appointment.location %> <br/>

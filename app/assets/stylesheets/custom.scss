@@ -11,6 +11,7 @@
 
 body {
   padding-top: 60px;
+  background: #f6f6f6;
 }
 
 textarea {
@@ -134,6 +135,10 @@ input {
   width: auto !important
 }
 
+.radio_button_input input{
+  width: auto !important
+}
+
 /* Users index */
 
 .users {
@@ -144,4 +149,9 @@ input {
     padding: 10px 0;
     border-bottom: 1px solid $gray-lighter;
   }
+}
+
+.shadow {
+  border-radius: 5px;
+  box-shadow: 0px 0px 8px hsla(0, 0%, 85%, 1);
 }
