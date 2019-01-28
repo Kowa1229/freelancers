@@ -1,11 +1,40 @@
 <%= provide(:title, @appointment.title) %>
 
-<%= @appointment.title %> <br/>
-<%= @appointment.user.fullname %> <br/>
-<%= @appointment.category.name %> <br/>
-<%= @appointment.city.name %> <br/>
-<%= @appointment.pax %> pax<br/>
-<%= @appointment.description %> <br/>
-<%= @appointment.status_name(@appointment.status) %> <br/>
-<%= @appointment.address %> <br/>
-<%= @appointment.location %> <br/>
+<div class="row">
+  <div class="col-md-3">
+    <ul class="nav nav-pills nav-stacked admin-menu">
+      <li class="active"><a href="#" data-target-id="basic_info"><i class="fa fa-home fa-fw"></i>Basic Info</a></li>
+      <li><a href="#" data-target-id="pictures"><i class="fa fa-list-alt fa-fw"></i>Pictures</a></li>
+    </ul>
+
+    <center>
+      <%= link_to edit_appointment_path(@appointment) do %>
+        <button class="btn btn-danger">Edit <i class="glyphicon glyphicon-pencil"></i></button>
+      <% end %>
+    </center>
+
+  </div>
+  <div class="col-md-9 well admin-content" id="basic_info">
+    <%= @appointment.title %> <br/>
+    <%= @appointment.user.fullname %> <br/>
+    <%= @appointment.category.name %> <br/>
+    <%= @appointment.city.name %> <br/>
+    <%= @appointment.pax %> pax<br/>
+    <%= @appointment.description %> <br/>
+    <%= @appointment.status_name(@appointment.status) %> <br/>
+    <%= @appointment.address %> <br/>
+    <%= @appointment.location %> <br/>
+
+    Available Time : <br/>
+    <% if @appointment.appointment_sessions %>
+      <% @appointment.appointment_sessions.each_with_index do |app_session, index| %>
+        <%= index + 1 %>
+        Time : <%= app_session.time.strftime('%Y-%m-%d (%I:%M %P)') %> <br/>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="col-md-9 well admin-content" id="pictures">
+  </div>
+</div>
+

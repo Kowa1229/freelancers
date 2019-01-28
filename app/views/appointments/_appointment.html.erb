@@ -27,5 +27,14 @@
         <div>0 / <%= appointment.pax if appointment.pax %></div>
       </div>
     </div>
+
+    <div class="appointment_sessions_index">
+      <% appointment.appointment_sessions.each_with_index do |app_session, index| %>
+        <div class="display_table">
+          <div>Available Time <%= index + 1 %> :</div>
+          <div><%= app_session.time.strftime('%Y-%m-%d (%I:%M %P)') %></div>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

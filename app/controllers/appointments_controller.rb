@@ -31,11 +31,18 @@ class AppointmentsController < ApplicationController
   end
 
   def edit
-
+    @appointment = Appointment.find(params[:id])
   end
 
   def update
-
+    @appointment = Appointment.find(params[:id])
+    if @appointment.update_attributes(appointment_params)
+      # Handle a successful update.
+      flash[:success] = "Appointment updated"
+      redirect_to @appointment
+    else
+      render 'edit'
+    end
   end
 
   def destroy
@@ -44,11 +51,10 @@ class AppointmentsController < ApplicationController
 
   private
   def appointment_params
-    # params.require(:user).permit(:fullname, :username, :email,
-    #                              :password, :password_confirmation)
+    # params.require(:appointment).permit!
     params.require(:appointment).permit(:user_id, :category_id, :city_id,
                                         :pax, :title, :description, :address,
-                                        :location)
+                                        :location, appointment_sessions_attributes: [:id, :time, :_destroy])
   end
 
 end

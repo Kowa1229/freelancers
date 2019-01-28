@@ -10,9 +10,32 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery3
-//= require bootstrap
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
+//= require jquery3
+//= require jquery.turbolinks
+//= require bootstrap-sprockets
+//= require cocoon
 //= require_tree .
+
+// $(document).ready(function($)
+$(document).on('turbolinks:load', function()
+{
+    var navItems = $('.admin-menu li > a');
+    var navListItems = $('.admin-menu li');
+    var allWells = $('.admin-content');
+    var allWellsExceptFirst = $('.admin-content:not(:first)');
+
+    allWellsExceptFirst.hide();
+    navItems.click(function(e)
+    {
+        e.preventDefault();
+        navListItems.removeClass('active');
+        $(this).closest('li').addClass('active');
+
+        allWells.hide();
+        var target = $(this).attr('data-target-id');
+        $('#' + target).show();
+    });
+});

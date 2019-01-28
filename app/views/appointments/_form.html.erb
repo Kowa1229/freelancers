@@ -24,5 +24,22 @@
   <%= f.label :description %>
   <%= f.text_area :description, class: 'form-control' %>
 
+  <h3>Sessions</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Available Time</th>
+        <th><%= link_to_add_association 'Add Sessions', f, :appointment_sessions,
+                                        partial: 'appointment_session', class: 'btn btn-danger',
+                                        data: { association_insertion_node: '.appointment_sessions', association_insertion_method: :append } %></th>
+      </tr>
+    </thead>
+    <tbody class="appointment_sessions">
+      <%= f.fields_for :appointment_sessions do |app_session| %>
+        <%= render 'appointment_session', :f => app_session %>
+      <% end %>
+    </tbody>
+  </table>
+
   <%= f.submit "Save changes", class: "btn btn-danger" %>
 <% end %>
