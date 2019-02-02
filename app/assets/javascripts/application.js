@@ -39,3 +39,27 @@ $(document).on('turbolinks:load', function()
         $('#' + target).show();
     });
 });
+
+// $(document).ready(function() {
+$(document).on('turbolinks:load', function() {
+    var navListItems = $('ul.appointment_index_nav_bar li a'),
+        allWells = $('.appointment_content');
+
+    allWells.hide();
+
+    navListItems.click(function(e)
+    {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+            $item = $(this).closest('li');
+
+        if (!$item.hasClass('disabled')) {
+            navListItems.closest('li').removeClass('active');
+            $item.addClass('active');
+            allWells.hide();
+            $target.show();
+        }
+    });
+    $('ul.appointment_index_nav_bar li.active a').trigger('click');
+});
+

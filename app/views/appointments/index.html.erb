@@ -1,6 +1,48 @@
 <% provide(:title, 'Opportunities') %>
-<h1>Opportunities</h1>
 
-<ul class="appointments">
-  <%= render @appointments %>
-</ul>
+<div class="row form-group opportunities">
+  <div class="col-xs-12">
+    <ul class="nav nav-pills nav-justified thumbnail appointment_index_nav_bar">
+      <li class="active"><a href="#opportunities">
+        <h4 class="list-group-item-heading">Opportunities</h4>
+      </a></li>
+      <li><a href="#running">
+        <h4 class="list-group-item-heading">Progressing</h4>
+      </a></li>
+      <li><a href="#completed">
+        <h4 class="list-group-item-heading">Completed</h4>
+      </a></li>
+    </ul>
+  </div>
+</div>
+
+<!--<h1>Opportunities</h1>-->
+
+<div class="row appointment_content" id="opportunities">
+  <div class="col-xs-12">
+    <div class="col-md-12 well">
+        <%= render @appointments %>
+    </div>
+  </div>
+</div>
+<div class="row appointment_content" id="running">
+  <div class="col-xs-12">
+    <div class="col-md-12 well">
+      <% if @running_app.any? %>
+         <%= render 'running_app' %>
+      <% else %>
+        <h1 class="text-center">There is no any running appointment.</h1>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row appointment_content" id="completed">
+  <div class="col-xs-12">
+    <div class="col-md-12 well">
+      <% @completed_app.each do |appointment| %>
+        <%= appointment.title %>
+      <% end %>
+    </div>
+  </div>
+</div>
+

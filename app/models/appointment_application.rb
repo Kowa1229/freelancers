@@ -21,4 +21,8 @@ class AppointmentApplication < ApplicationRecord
     end
   end
 
+  # def sent_by_employer?
+  #
+  # end
+
 end

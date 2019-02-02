@@ -1,0 +1,99 @@
+<% unless @appointment.pending_applicants.count == 0 %>
+  <% if @appointment.user_id == current_user.id %>
+    <h3>Pending applicants</h3>
+    <%= form_tag accept_applicants_appointments_path, method: :put,
+                 data: {confirm: "You sure? This action can't be redo."} do %>
+      <%= hidden_field_tag :appointment_id, @appointment.id %>
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th></th>
+          <th>No</th>
+          <th>Applicant's Name</th>
+          <th>Applicant's Rating</th>
+          <th>Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @appointment.pending_applicants.each_with_index do |applicant, index| %>
+          <tr>
+            <td><%= check_box_tag "applicant_ids[]", applicant.id %></td>
+            <td><%= index + 1 %></td>
+            <td><%= link_to applicant.user.fullname, applicant.user %></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+      <%= submit_tag "Accept chosen applicant(s)", class: "btn btn-danger" %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% unless @appointment.reject_applicants.count == 0 %>
+  <% if @appointment.user_id == current_user.id %>
+    <h3>Rejected Applicants</h3>
+    <%= form_tag accept_applicants_appointments_path, method: :put do %>
+      <%= hidden_field_tag :appointment_id, @appointment.id %>
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th></th>
+          <th>No</th>
+          <th>Applicant's Name</th>
+          <th>Applicant's Rating</th>
+          <th>Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @appointment.reject_applicants.each_with_index do |applicant, index| %>
+          <tr>
+            <td><%= check_box_tag "applicant_ids[]", applicant.id %></td>
+            <td><%= index + 1 %></td>
+            <td><%= link_to applicant.user.fullname, applicant.user %></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+      <%= submit_tag "Accept chosen applicant(s)", class: "btn btn-danger" %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% unless @appointment.cancel_applicants.count == 0 %>
+  <% if @appointment.user_id == current_user.id %>
+    <h3>Cancelled Applicants</h3>
+    <%= form_tag accept_applicants_appointments_path, method: :put do %>
+      <%= hidden_field_tag :appointment_id, @appointment.id %>
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th></th>
+          <th>No</th>
+          <th>Applicant's Name</th>
+          <th>Applicant's Rating</th>
+          <th>Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @appointment.cancel_applicants.each_with_index do |applicant, index| %>
+          <tr>
+            <td><%= check_box_tag "applicant_ids[]", applicant.id %></td>
+            <td><%= index + 1 %></td>
+            <td><%= link_to applicant.user.fullname, applicant.user %></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+      <%= submit_tag "Accept chosen applicant(s)", class: "btn btn-danger" %>
+    <% end %>
+  <% end %>
+<% end %>

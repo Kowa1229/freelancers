@@ -67,9 +67,24 @@ class User < ApplicationRecord
 
 
   def opportunities(category_ids, city_id)
-    Appointment.where("category_id IN (?) AND city_id = ? ", category_ids, city_id)
+    Appointment.where("category_id IN (?) AND city_id = ? AND status = ? ", category_ids, city_id, 0)
   end
 
+  def progress_appointment(current_user)
+    application_ids = current_user.appointment_applicant_ids
+    # appointment_ids =
+    Appointment.where("id IN (?) AND status = ? ", get_appointment_ids(application_ids), 1)
+  end
+
+  def completed_appointment(current_user)
+    application_ids = current_user.appointment_applicant_ids
+    # appointment_ids =
+    Appointment.where("id IN (?) AND status = ? ", get_appointment_ids(application_ids), 2)
+  end
+
+  def is_employer?
+    employer == true ? true : false
+  end
 
   # Activates an account.
   def activate
@@ -111,6 +126,17 @@ class User < ApplicationRecord
   def create_activation_digest
     self.activation_token  = User.new_token
     self.activation_digest = User.digest(activation_token)
+  end
+
+  def get_appointment_ids(applicant_ids)
+    appointment_ids = AppointmentApplication.find(applicant_ids)
+    ids_array = []
+
+    appointment_ids.each do |app|
+      ids_array << app.appointment_id
+    end
+
+    return ids_array
   end
 
 end

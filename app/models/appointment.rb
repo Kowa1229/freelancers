@@ -11,6 +11,18 @@ class Appointment < ApplicationRecord
            foreign_key: "appointment_id",
            dependent: :destroy
 
+  has_many :approve_applicants, -> { where status:2 } ,class_name: "AppointmentApplication",
+           foreign_key: "appointment_id",
+           dependent: :destroy
+
+  has_many :reject_applicants, -> { where status:3 } ,class_name: "AppointmentApplication",
+           foreign_key: "appointment_id",
+           dependent: :destroy
+
+  has_many :cancel_applicants, -> { where status:4 } ,class_name: "AppointmentApplication",
+           foreign_key: "appointment_id",
+           dependent: :destroy
+
   # has_many :pending_applicants, through: :pending, source: :pending_appointment
 
   has_many :appointment_sessions, inverse_of: :appointment
@@ -24,6 +36,22 @@ class Appointment < ApplicationRecord
   validates :description, presence: true
   validates :address, presence: true
   validates :location, presence: true
+
+  def is_open?
+    status_name(status) == "Open" ? true : false
+  end
+
+  def is_progress?
+    status_name(status) == "Progress" ? true : false
+  end
+
+  def is_completed?
+    status_name(status) == "Completed" ? true : false
+  end
+
+  def is_closed?
+    status_name(status) == "Closed" ? true : false
+  end
 
   def status_name(status)
     case status.to_s
@@ -42,8 +70,12 @@ class Appointment < ApplicationRecord
     !applicants.find_by(user_id: user.id, status: 1).nil?
   end
 
-  # def pending_applicants
-  #   return applicants.find_by(status: 1)
-  # end
+  def update_status_to_progress
+    update_attribute(:status, 1)
+  end
+
+  def appointment_owner?(current_user)
+    user_id == current_user.id
+  end
 
 end

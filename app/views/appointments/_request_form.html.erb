@@ -1,3 +1,4 @@
+<% if @appointment.is_open? && !current_user.is_employer? %>
 <div id="request_form">
   <% if @appointment.applicant_include?(current_user) %>
     <%= render 'cancel_request' %>
@@ -5,3 +6,4 @@
     <%= render 'request' %>
   <% end %>
 </div>
+<% end %>

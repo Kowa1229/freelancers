@@ -1,56 +1,101 @@
 <%= provide(:title, @appointment.title) %>
 
-<%= render 'request_form' %>
+<h1><%= @appointment.title %></h1>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-3">
+        <ul class="nav nav-pills nav-stacked admin-menu">
+          <li class="active"><a href="#" data-target-id="basic_info"><i class="fa fa-home fa-fw"></i>Basic Info</a></li>
+          <li><a href="#" data-target-id="pictures"><i class="fa fa-list-alt fa-fw"></i>Pictures</a></li>
+          <li>
+            <a href="#" data-target-id="applicants"><i class="glyphicon glyphicon-user"></i> &nbsp; | &nbsp; Applicants</a>
+          </li>
+          <li>
+            <a href="#" data-target-id="confirmed_applicants"><i class="glyphicon glyphicon-user"></i> &nbsp; | &nbsp; Confirmed Applicants</a>
+          </li>
+          <li><a href="#" data-target-id="freelancers"><i class="fa fa-list-alt fa-fw"></i>Get Freelancers</a></li>
+        </ul>
 
-<br/>
+        <br/>
+        <% if @appointment.is_open? %>
+        <center>
+          <%= link_to edit_appointment_path(@appointment) do %>
+            <button class="btn btn-danger">Edit <i class="glyphicon glyphicon-pencil"></i></button>
+          <% end %>
+        </center>
+        <% end %>
 
-<div class="row">
-  <div class="col-md-3">
-    <ul class="nav nav-pills nav-stacked admin-menu">
-      <li class="active"><a href="#" data-target-id="basic_info"><i class="fa fa-home fa-fw"></i>Basic Info</a></li>
-      <li><a href="#" data-target-id="pictures"><i class="fa fa-list-alt fa-fw"></i>Pictures</a></li>
-      <li><a href="#" data-target-id="applicants"><i class="glyphicon glyphicon-user"></i> &nbsp; | &nbsp; Applicants</a></li>
-    </ul>
+        <% if @appointment.is_progress? %>
+          <%= form_for @appointment,
+                       html: { method: :patch } do |f| %>
 
-    <center>
-      <%= link_to edit_appointment_path(@appointment) do %>
-        <button class="btn btn-danger">Edit <i class="glyphicon glyphicon-pencil"></i></button>
-      <% end %>
-    </center>
+            <%= f.hidden_field :id, value: @appointment.id %>
+            <%= f.hidden_field :status, value: 2 %>
 
-  </div>
-  <div class="col-md-9 well admin-content" id="basic_info">
-    <%= @appointment.title %> <br/>
-    <%= @appointment.user.fullname %> <br/>
-    <%= @appointment.category.name %> <br/>
-    <%= @appointment.city.name %> <br/>
-    <%= @appointment.pax %> pax<br/>
-    <%= @appointment.description %> <br/>
-    <%= @appointment.status_name(@appointment.status) %> <br/>
-    <%= @appointment.address %> <br/>
-    <%= @appointment.location %> <br/>
+            <%= f.submit "Close Appointment", class: "btn btn-warning" %>
+          <% end %>
 
-    Available Time : <br/>
-    <% if @appointment.appointment_sessions %>
-      <% @appointment.appointment_sessions.each_with_index do |app_session, index| %>
-        <%= index + 1 %>
-        Time : <%= app_session.time.strftime('%Y-%m-%d (%I:%M %P)') %> <br/>
-      <% end %>
-    <% end %>
+        <% end %>
 
-  </div>
+      </div>
+      <div class="col-md-9 admin-content" id="basic_info">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><label for="new_password" class="control-label panel-title">Basic Info</label></h3>
+          </div>
+          <div class="panel-body">
+            <%= @appointment.title %> <br/>
+            <%= @appointment.user.fullname %> <br/>
+            <%= @appointment.category.name %> <br/>
+            <%= @appointment.city.name %> <br/>
+            <%= @appointment.pax %> pax<br/>
+            <%= @appointment.description %> <br/>
+            <%= @appointment.status_name(@appointment.status) %> <br/>
+            <%= @appointment.address %> <br/>
+            <%= @appointment.location %> <br/>
 
-  <div class="col-md-9 well admin-content" id="pictures">
-  </div>
+            Available Time : <br/>
+            <% if @appointment.appointment_sessions %>
+              <% @appointment.appointment_sessions.each_with_index do |app_session, index| %>
+                <%= index + 1 %>
+                Time : <%= app_session.time.strftime('%Y-%m-%d (%I:%M %P)') %> <br/>
+              <% end %>
+            <% end %>
 
-  <div class="col-md-9 well admin-content" id="applicants">
-    <ul>
-      <% @appointment.pending_applicants.each_with_index do |applicant, index| %>
-        <li>
-          <%= applicant.user.fullname %>
-        </li>
-      <% end %>
-    </ul>
+            <%= render 'request_form' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 well admin-content" id="pictures">
+      </div>
+
+      <div class="col-md-9 admin-content" id="applicants">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><label for="new_password" class="control-label panel-title">Applicants Info</label>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <%= render 'appointment_applicants' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 admin-content" id="confirmed_applicants">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><label for="new_password" class="control-label panel-title">Applicants Info</label>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <%= render 'confirmed_applicants' %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 </div>
-

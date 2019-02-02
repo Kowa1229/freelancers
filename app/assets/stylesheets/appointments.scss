@@ -20,7 +20,7 @@
   width: 45%;
   vertical-align: top;
   display: inline-block;
-  margin: 5px 5% 5px 0;
+  margin: 5px 2.5% 5px 2.5%;
   position: relative;
   font-weight: bold;
   background: white;
@@ -59,6 +59,7 @@
   float: left;
   box-sizing: border-box;
   padding: 5px 20px 20px 20px;
+  //margin: 5px 5% 5px 0;
 }
 
 .display_table {
@@ -76,4 +77,32 @@
   width: 50%;
   color: #494949;
   float: right;
+}
+
+/* Appointment Navbar pills */
+.opportunities .nav-pills > li.active > a {
+  color: #53476d !important;
+  border-bottom: #53476d 2px solid !important;
+  background-color: white !important;
+}
+.opportunities .nav-pills > li > a {
+  color: #53476d !important;
+  //border-bottom: #53476d 2px solid;
+  background-color: white !important;
+}
+
+.opportunities .nav-pills > li.active > a,
+.opportunities .nav-pills > li.active > a:hover,
+.opportunities .nav-pills > li.active > a:focus {
+  //color: #fff;
+  background-color: white !important;
+}
+
+.opportunities .nav-pills > li > a {
+  border-radius: 0px !important;
+}
+
+.opportunities .thumbnail {
+  border-radius: 0px !important;
+  padding: 0px !important;
 }

@@ -1,0 +1,43 @@
+<% unless @appointment.approve_applicants.count == 0 %>
+  <% if @appointment.is_completed? %>
+    <h3>Rating Applicants</h3>
+  <% else %>
+    <h3>Confirmed Applicants</h3>
+  <% end %>
+
+  <%= form_tag accept_applicants_appointments_path, method: :put do %>
+    <%= hidden_field_tag :appointment_id, @appointment.id %>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>No</th>
+        <th>Applicant's Name</th>
+        <% if @appointment.is_closed? %>
+          <th>Performance Rating</th>
+          <th>Comments</th>
+        <% else %>
+          <th>Applicant's Rating</th>
+          <th>Message</th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <% @appointment.approve_applicants.each_with_index do |applicant, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= link_to applicant.user.fullname, applicant.user %></td>
+          <% if @appointment.is_closed? %>
+            <td></td>
+            <td></td>
+          <% else %>
+            <td></td>
+            <td></td>
+          <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <!--<%= submit_tag "Accept chosen applicant(s)", class: "btn btn-danger" %>-->
+  <% end %>
+<% end %>

@@ -1,4 +1,5 @@
 <tr class="nested-fields">
-  <td><%= f.datetime_field :time, label: false, min: DateTime.now.strftime('%Y-%m-%dT%H:%M') %></td>
+  <td><%= f.datetime_field :time, label: false %></td>
+  <!--<td><%= f.datetime_field :time, label: false, min: DateTime.now.strftime('%Y-%m-%dT%H:%M') %></td>-->
   <td><%= link_to_remove_association "remove task", f, class: 'btn btn-primary btn-xs' %></td>
 </tr>

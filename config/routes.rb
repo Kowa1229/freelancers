@@ -17,7 +17,11 @@ Rails.application.routes.draw do
   resources :users
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
-  resources :appointments,        only: [:new, :show, :create, :edit, :update, :destroy]
+  resources :appointments,        only: [:new, :show, :create, :edit, :update, :destroy] do
+    collection do
+      put :accept_applicants
+    end
+  end
   resources :appointment_applications
 
   devise_for :admin_users, ActiveAdmin::Devise.config
