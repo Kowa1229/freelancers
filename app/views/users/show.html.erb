@@ -1,17 +1,36 @@
 <%= provide(:title, @user.fullname) %>
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-3 user_sidebar">
+    <div class="user_brief">
+      <div class="user_brief_left">
+        <%= image_tag @user.profile_picture.url, class: 'img-circle' if @user.profile_picture %>
+      </div>
+      <div class="user_brief_right">
+        <div>
+          <%= @user.fullname %>
+        </div>
+        <div class="user_edit_profile">
+          <%= link_to edit_user_path(@user) do %>
+            <i class="glyphicon glyphicon-pencil"></i> Edit Profile
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+
+    <br/>
     <p>
-      <div class="float-left">
-        <%= @user.fullname %>
-      </div>
-      <div class="float-right">
 
-        <%= link_to edit_user_path(@user) do %>
-          <i class="glyphicon glyphicon-pencil"></i>
-        <% end %>
+    <div>
+      <%= @user.fullname %>
+    </div>
+    <div>
 
-      </div>
+      <%= link_to edit_user_path(@user) do %>
+        <i class="glyphicon glyphicon-pencil"></i>
+      <% end %>
+
+    </div>
     </p>
     <p><%= @user.username %></p>
     <p><%= @user.email %></p>
@@ -22,15 +41,24 @@
     Professionals
     <ul>
       <% @user.categories.each do |categ| %>
-      <li>
-        <%= categ.name %>
-      </li>
+        <li>
+          <%= categ.name %>
+        </li>
       <% end %>
     </ul>
     <hr/>
 
   </div>
-  <div class="col-md-9">
-    <p>Some features or histories would be shown here.</p>
+  <!-- Differents view here -->
+  <div class="col-md-9 user_profile_display shadow">
+    <div class="user_profile_header"><h3>Manage Your Account</h3></div>
+    <div class="user_profile_body">
+      <div class="user_profile_left">
+
+      </div>
+      <div class="user_profile_right">
+        <%= render 'form' %>
+      </div>
+    </div>
   </div>
 </div>

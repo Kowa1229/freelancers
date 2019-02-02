@@ -15,6 +15,10 @@ gem 'bcrypt', '3.1.12'
 gem 'devise'
 gem 'activeadmin'
 
+# For pictures
+gem 'carrierwave',             '1.2.2'
+gem 'mini_magick',             '4.7.0'
+
 # faker for generate random users
 gem 'faker',                   '1.7.3'
 

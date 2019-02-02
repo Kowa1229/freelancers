@@ -1,3 +1,46 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.user_sidebar {
+  display: block;
+}
+
+.user_brief {
+  width: 100%;
+  height: 80px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #efefef;
+}
+
+.user_brief_left {
+  float: left;
+  width: 30%;
+}
+
+.user_brief_left > img {
+  width: 75px;
+  height: 75px;
+}
+
+.user_brief_right {
+  font-weight: bold;
+  padding: 15px 0px 0px 15px;
+  width: 70%;
+  float: left;
+}
+
+.user_edit_profile > a, .user_edit_profile > a:hover, .user_edit_profile > a:active{
+  color: #888;
+  text-decoration: none;
+  text-transfrom: capitalize;
+}
+
+.user_profile_display {
+  padding: 5px 20px 20px 20px;
+  background-color: white;
+}
+
+.user_profile_header {
+  border-bottom: 1px solid #efefef;
+}

@@ -13,6 +13,9 @@ class User < ApplicationRecord
   before_save   :downcase_email
   before_create :create_activation_digest
 
+  # mount_uploader :profile_picture, UserUploader
+  mount_uploader :profile_picture, UserUploader
+
   has_secure_password
 
   VALID_EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
@@ -27,7 +30,7 @@ class User < ApplicationRecord
   # validates :profile_picture, presence: true
   # city_id
   # employer 1 = employer, 0 = freelancers
-
+  validate :picture_size
 
 
 
@@ -137,6 +140,13 @@ class User < ApplicationRecord
     end
 
     return ids_array
+  end
+
+  # Validates the size of an uploaded picture.
+  def picture_size
+    if profile_picture.size > 5.megabytes
+      errors.add(:profile_picture, "should be less than 5MB")
+    end
   end
 
 end
