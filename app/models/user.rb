@@ -4,6 +4,9 @@ class User < ApplicationRecord
   has_many :appointments
   has_and_belongs_to_many :categories
 
+  has_many :reviews, class_name: "Review", foreign_key: "user_id"
+  # has_many :review_to, class_name: "Review", foreign_key: "review_to"
+
   has_many :appointment_applicant, class_name: "AppointmentApplication",
            foreign_key: "user_id"
 

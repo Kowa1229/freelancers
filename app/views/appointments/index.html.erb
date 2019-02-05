@@ -39,8 +39,10 @@
 <div class="row appointment_content" id="completed">
   <div class="col-xs-12">
     <div class="col-md-12 well">
-      <% @completed_app.each do |appointment| %>
-        <%= appointment.title %>
+      <% if @completed_app.any? %>
+        <%= render 'completed_appointment' %>
+      <% else %>
+        <h1 class="text-center">There is no any running appointment.</h1>
       <% end %>
     </div>
   </div>

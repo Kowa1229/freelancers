@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_122010) do
+ActiveRecord::Schema.define(version: 2019_02_03_162238) do
 
   create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "namespace"
@@ -88,6 +88,17 @@ ActiveRecord::Schema.define(version: 2019_01_28_122010) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "reviews", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "rating"
+    t.text "comment"
+    t.integer "review_by"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "appointment_application_id"
+    t.index ["appointment_application_id"], name: "index_reviews_on_appointment_application_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "fullname"
     t.string "username"
@@ -110,4 +121,5 @@ ActiveRecord::Schema.define(version: 2019_01_28_122010) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "reviews", "appointment_applications"
 end

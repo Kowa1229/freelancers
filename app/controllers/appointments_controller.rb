@@ -24,8 +24,8 @@ class AppointmentsController < ApplicationController
   end
 
   def index
-    # @appointments = Appointment.all
-    @appointments = current_user.opportunities(current_user.category_ids, current_user.city_id)
+    @appointments = Appointment.all
+    # @appointments = current_user.opportunities(current_user.category_ids, current_user.city_id)
     @running_app = current_user.progress_appointment(current_user)
     @completed_app = current_user.completed_appointment(current_user)
   end

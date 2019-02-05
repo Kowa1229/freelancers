@@ -1,0 +1,42 @@
+<% @completed_app.each do |appointment| %>
+  <div class="appointment_index shadow">
+    <div class="title-column"><%= appointment.title %></div>
+    <div class="title-detail-change">
+      <%= link_to appointment_path(appointment) do %>
+        <i class="glyphicon glyphicon-eye-open"></i>
+      <% end %>
+    </div>
+
+    <div style="clear:both">
+      <div class="appointment_body_into_half">
+        <div class="display_table">
+          <div>Employer :</div>
+          <div><%= appointment.user.fullname if appointment.user %></div>
+        </div>
+        <div class="display_table">
+          <div>Category :</div>
+          <div><%= appointment.category.name if appointment.category %></div>
+        </div>
+      </div>
+      <div class="appointment_body_into_half">
+        <div class="display_table">
+          <div>City :</div>
+          <div><%= appointment.city.name if appointment.city %></div>
+        </div>
+        <div class="display_table">
+          <div>Pax :</div>
+          <div>0 / <%= appointment.pax if appointment.pax %></div>
+        </div>
+      </div>
+
+      <div class="appointment_sessions_index">
+        <% appointment.appointment_sessions.each_with_index do |app_session, index| %>
+          <div class="display_table">
+            <div>Available Time <%= index + 1 %> :</div>
+            <div><%= app_session.time.strftime('%Y-%m-%d (%I:%M %P)') %></div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

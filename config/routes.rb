@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     end
   end
   resources :appointment_applications
+  resources :reviews
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

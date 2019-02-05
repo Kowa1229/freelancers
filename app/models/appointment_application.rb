@@ -3,6 +3,8 @@ class AppointmentApplication < ApplicationRecord
   belongs_to :appointment, class_name: "Appointment"
   belongs_to :user, class_name: "User"
 
+  has_one :review, dependent: :destroy
+
   # belongs_to :pending_appointment, -> { where status: 1}, class_name: "Appointment"
 
   validates :user_id, presence: true

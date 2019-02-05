@@ -14,6 +14,7 @@
 //= require activestorage
 //= require turbolinks
 //= require jquery3
+//= require jquery.raty
 //= require jquery.turbolinks
 //= require bootstrap-sprockets
 //= require cocoon
@@ -62,4 +63,3 @@ $(document).on('turbolinks:load', function() {
     });
     $('ul.appointment_index_nav_bar li.active a').trigger('click');
 });
-

@@ -5,39 +5,99 @@
     <h3>Confirmed Applicants</h3>
   <% end %>
 
-  <%= form_tag accept_applicants_appointments_path, method: :put do %>
-    <%= hidden_field_tag :appointment_id, @appointment.id %>
-    <table class="table table-bordered">
-      <thead>
-      <tr>
-        <th>No</th>
-        <th>Applicant's Name</th>
-        <% if @appointment.is_closed? %>
-          <th>Performance Rating</th>
-          <th>Comments</th>
-        <% else %>
-          <th>Applicant's Rating</th>
-          <th>Message</th>
-        <% end %>
-      </tr>
-      </thead>
-      <tbody>
-      <% @appointment.approve_applicants.each_with_index do |applicant, index| %>
-        <tr>
-          <td><%= index + 1 %></td>
-          <td><%= link_to applicant.user.fullname, applicant.user %></td>
-          <% if @appointment.is_closed? %>
-            <td></td>
-            <td></td>
-          <% else %>
-            <td></td>
-            <td></td>
-          <% end %>
-        </tr>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>No</th>
+      <th>Applicant's Name</th>
+      <% if @appointment.is_completed? %>
+        <th>Performance Rating</th>
+        <th>Comments</th>
+      <% else %>
+        <th>Applicant's Rating</th>
+        <th>Message</th>
       <% end %>
-      </tbody>
-    </table>
+    </tr>
+    </thead>
+    <tbody>
+    <% @appointment.approve_applicants.each_with_index do |applicant, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= link_to applicant.user.fullname, applicant.user %></td>
+        <% if @appointment.is_completed? %>
+          <% if applicant.review.nil? %>
+            <td><%= link_to "Reviews", applicant.build_review, "data-toggle" => "modal", "data-target" => "#detail#{applicant.id}" %></td>
+            <td></td>
 
-    <!--<%= submit_tag "Accept chosen applicant(s)", class: "btn btn-danger" %>-->
-  <% end %>
+            <!--Modal-->
+            <div class="modal fade" id="detail<%= applicant.id %>" role="dialog">
+              <div class="modal-dialog">
+                <!--Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close close_book_detail" data-dismiss="modal">&times;</button>
+                    <%= form_for(applicant.build_review) do |f| %>
+                      <%= render 'shared/error_messages', object: f.object %>
+
+                      <%= hidden_field_tag :appointment_id, @appointment.id %>
+
+                      <%= f.hidden_field :review_by, value: current_user.id %>
+                      <%= f.hidden_field :user_id, value: applicant.user.id %>
+                      <%= f.hidden_field :appointment_application_id, value: applicant.id %>
+
+                      Rating for user <%= applicant.user.fullname %>
+
+                      <div class="form-group row">
+                        <%= f.label :rating, class: 'col-sm-2 form-control-label' %>
+                        <div class="col-sm-6" id='star-rating'>
+                          <%=hidden_field_tag "review[rating]", '', id: "rating_star" %>
+                        </div>
+                      </div>
+
+                      <%= f.label :comment %>
+                      <%= f.text_area :comment, placeholder: "Please enter comment here." %>
+
+                      <%= f.submit "Save changes", class: "btn btn-primary" %>
+                    <% end %>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <td><div class="star-rating-show" data-score= <%= applicant.review.rating %> ></div></td>
+            <td><%= applicant.review.comment %></td>
+          <% end %>
+        <% else %>
+          <td></td>
+          <td></td>
+        <% end %>
+
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 <% end %>
+
+
+<script>
+    $('#star-rating').raty({
+        path: '/assets',
+        target     : '#rating_star',
+        targetType : 'score',
+        targetKeep : true
+    });
+</script>
+
+
+
+
+<script>
+    $('.star-rating-show').raty({
+        path: '/assets/',
+        readOnly: true,
+        score: function() {
+            return $(this).attr('data-score');
+        }
+    });
+</script>
