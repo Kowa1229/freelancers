@@ -1,0 +1,98 @@
+<%= form_for(@user) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+
+  <div class="user_profile_left">
+    <div class="display_table">
+      <div><%= f.label :fullname %></div>
+      <div><%= f.text_field :fullname, class: 'form-control' %></div>
+    </div>
+
+    <div class="display_table">
+      <div><%= f.label :username %></div>
+      <div><%= f.text_field :username, class: 'form-control' %></div>
+    </div>
+
+    <div class="display_table">
+      <div><%= f.label :city_id %></div>
+      <div><%= f.collection_select :city_id, City.all, :id, :name, {prompt: "Select a city"}, {class: "form-control"} %></div>
+    </div>
+
+    <div class="display_table">
+      <div><%= f.label :email %></div>
+      <div><%= f.email_field :email, class: 'form-control' %></div>
+    </div>
+
+    <div class="display_table">
+      <div><%= f.label :phone_number %></div>
+      <div><%= f.text_field :phone_number, class: 'form-control' %></div>
+    </div>
+
+    <div class="display_table">
+      <div><%= f.label :gender %></div>
+      <div class="radio_button_input">
+        <%= f.radio_button :employer, true %>
+        <%= f.label :employer, "Male", :value => "true"  %>
+        <%= f.radio_button :employer, false %>
+        <%= f.label :employer, "Female", :value => "false" %>
+      </div>
+    </div>
+
+    <div class="display_table">
+      <div>
+        <label>
+          Categories
+        </label>
+      </div>
+      <div>
+        <% for category in Category.all %>
+          <span class="checkbox_tag_input">
+            <%= check_box_tag "user[category_ids][]", category.id, @user.categories.include?(category),
+                              {:id => dom_id(category, dom_id(@user))} %>
+            <%= category.name %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="display_table button_div">
+      <div>&nbsp;</div>
+      <div><%= f.submit "Save changes", class: "theme_button" %></div>
+    </div>
+
+  </div>
+  <div class="user_profile_right text-center">
+    <div class="col-xs-10 text-center">
+      <div class="pofile_pic_preview" align="center">
+        <% if @user.profile_picture.url %>
+          <%= image_tag @user.profile_picture.url, class: 'img-circle', id: "preview" %>
+        <% else %>
+          <%= image_tag("user.png", class: 'img-circle', alt: "Preview", id: "preview") %>
+        <% end %>
+      </div>
+      <div class="text-center">
+        <div class="user_picture_upload">
+
+          <span class="btn btn-large btn-default btn-file">
+            Select Image
+            <%= f.file_field :profile_picture, :onchange => "previewFile()" %>
+          </span>
+          <p>File Extension: .JPEG, .PNG</p>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+<% end %>
+
+
+<script type="text/javascript">
+    $('#user_profile_picture').bind('change', function () {
+        var size_in_megabytes = this.files[0].size / 1024 / 1024;
+        if (size_in_megabytes > 5) {
+            alert('Maximum file size is 5MB. Please choose a smaller file.');
+        }
+    });
+</script>

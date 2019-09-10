@@ -63,3 +63,39 @@ $(document).on('turbolinks:load', function() {
     });
     $('ul.appointment_index_nav_bar li.active a').trigger('click');
 });
+
+function previewFile() {
+    var preview = document.querySelector('#preview');
+    var file    = document.querySelector('input[type=file]').files[0];
+    var reader  = new FileReader();
+
+    reader.onloadend = function () {
+        preview.src = reader.result;
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "";
+    }
+}
+
+$(document).on('turbolinks:load', function()
+{
+    var navItems = $('.user_sidebar li > a');
+    var navListItems = $('.user_sidebar li');
+    var allWells = $('.user_profile_display');
+    var allWellsExceptFirst = $('.user_profile_display:not(:first)');
+
+    allWellsExceptFirst.hide();
+    navItems.click(function(e)
+    {
+        e.preventDefault();
+        navListItems.removeClass('active');
+        $(this).closest('li').addClass('active');
+
+        allWells.hide();
+        var target = $(this).attr('data-target-id');
+        $('#' + target).show();
+    });
+});

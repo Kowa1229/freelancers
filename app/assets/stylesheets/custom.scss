@@ -22,6 +22,22 @@ textarea {
   text-align: center;
 }
 
+.theme_button {
+  background-color: #53476d;
+  color: white;
+  width: auto;
+  display: inline-block;
+  text-align: center;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.theme_button:hover {
+  background-color: #6f6191;
+  color: white;
+}
+
 /* header */
 
 #logo {
@@ -141,8 +157,13 @@ input {
   }
 }
 
+.checkbox_tag_input{
+  width: 50% !important;
+  float: left !important;
+}
+
 .checkbox_tag_input input{
-  width: auto !important
+  width: 10% !important;
 }
 
 .radio_button_input input{

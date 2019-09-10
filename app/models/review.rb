@@ -12,4 +12,10 @@ class Review < ApplicationRecord
 
   validates :rating, presence: true
 
+
+  def reviewer_object(review_by)
+    reviewer = User.find(review_by)
+    return reviewer
+  end
+
 end

@@ -81,11 +81,13 @@
 
 
 <script>
-    $('#star-rating').raty({
-        path: '/assets',
-        target     : '#rating_star',
-        targetType : 'score',
-        targetKeep : true
+    $(document).on('turbolinks:load', function() {
+        $('#star-rating').raty({
+            path: '/assets',
+            target: '#rating_star',
+            targetType: 'score',
+            targetKeep: true
+        });
     });
 </script>
 
@@ -93,11 +95,13 @@
 
 
 <script>
-    $('.star-rating-show').raty({
-        path: '/assets/',
-        readOnly: true,
-        score: function() {
-            return $(this).attr('data-score');
-        }
+    $(document).on('turbolinks:load', function() {
+      $('.star-rating-show').raty({
+          path: '/assets/',
+          readOnly: true,
+          score: function() {
+              return $(this).attr('data-score');
+          }
+      });
     });
 </script>

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :skip_password_attribute, only: :update
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user,   only: [:edit, :update]
 
@@ -13,6 +14,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @histories = @user.appointment_applicant
+    @reviews = @user.reviews.to_a
+    @avg_rating = @user.average_rating(@user)
     # @user_categories = Category.find(current_user.user_category.ids)
     # @categories = Category.all
     # @user_categories = current_user.user_category.build
@@ -68,6 +72,12 @@ class UsersController < ApplicationController
   def correct_user
     @user = User.find(params[:id])
     redirect_to(root_url) unless current_user?(@user)
+  end
+
+  def skip_password_attribute
+    if params[:password].blank? && params[:password_validation].blank?
+      params.except(:password, :password_validation)
+    end
   end
 
 end

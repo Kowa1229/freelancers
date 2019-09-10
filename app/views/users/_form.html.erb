@@ -21,13 +21,14 @@
         <%= f.label :employer, "Freelancer", :value => "false" %>
         <%= f.radio_button :employer, false %>
       </div>
-  <% end %>
 
   <%= f.label :password %>
   <%= f.password_field :password, class: 'form-control' %>
 
   <%= f.label :password_confirmation, "Confirmation" %>
   <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+  <% end %>
 
   <span class="user_picture_upload">
     <%= f.file_field :profile_picture, accept: 'image/jpeg,image/gif,image/png' %>

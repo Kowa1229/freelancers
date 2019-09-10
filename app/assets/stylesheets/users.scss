@@ -8,9 +8,7 @@
 
 .user_brief {
   width: 100%;
-  height: 80px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #efefef;
+  height: auto;
 }
 
 .user_brief_left {
@@ -20,27 +18,246 @@
 
 .user_brief_left > img {
   width: 75px;
-  height: 75px;
+  height: 80px;
+  padding-top: 5px;
 }
 
 .user_brief_right {
   font-weight: bold;
-  padding: 15px 0px 0px 15px;
+  padding: 5px 0px 0px 15px;
   width: 70%;
   float: left;
 }
 
-.user_edit_profile > a, .user_edit_profile > a:hover, .user_edit_profile > a:active{
+.user_edit_profile{
   color: #888;
-  text-decoration: none;
-  text-transfrom: capitalize;
 }
 
-.user_profile_display {
+.user_profile_display, .edit_profile {
   padding: 5px 20px 20px 20px;
   background-color: white;
 }
 
 .user_profile_header {
   border-bottom: 1px solid #efefef;
+}
+
+.user_profile_left {
+  width: 65%;
+  float: left;
+  margin-top: 10px;
+}
+
+.user_profile_right {
+  margin-top: 5%;
+  width: 33%;
+  border-left: 1px solid #efefef;
+  float: right;
+  height: 300px;
+}
+
+.pofile_pic_preview {
+  height: 200px;
+  width: 200px;
+}
+
+.pofile_pic_preview > img {
+  margin-top: 20px;
+  height: 150px;
+  width: 150px;
+}
+
+.user_picture_upload > .btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+.user_picture_upload > .btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+.user_profile_body .display_table {
+  display: table;
+  width: 100%;
+}
+
+.user_profile_body .display_table div:first-child {
+  width: 25%;
+  color: #a5a5a5;
+  float: left;
+  text-align: right;
+  display:table-cell;
+  //display:inline-block;
+}
+
+.user_profile_body .display_table > div > label {
+  padding: 6px;
+}
+
+.user_profile_body .display_table div:nth-child(2) {
+  margin-left: 3%;
+  width: 65%;
+  color: #494949;
+  float: left;
+  display:table-cell;
+}
+
+.button_div {
+  margin-top: 10px;
+}
+
+.button_div > div > input{
+  width: auto !important;
+}
+
+/* Profile Sidebar */
+.profile_sidebar {
+  color: black;
+  left:50%;
+  //margin-left:-150px;
+  top:50px;
+  width: 100%;
+  font-weight: bold;
+  //position:absolute;
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+  padding: 10px 0px 10px 0px;
+  margin: 10px 0px 10px 0px;
+}
+
+.profile_sidebar .dropdown
+
+.profile_sidebar>li>a:hover,
+.profile_sidebar>li>a:focus,
+.profile_sidebar>li>a:active,
+.profile_sidebar>li .active > a,
+.profile_sidebar>li .active,
+.profile_sidebar .open>a:active,
+.profile_sidebar .open>a:hover,
+.profile_sidebar .open>a:focus {
+  background:#53476d !important;
+  color:#fff !important;
+}
+
+.nav .active > a {
+  background:#53476d !important;
+  color: #fff !important;
+}
+
+.profile_sidebar > .dropdown {
+  border:1px solid #ccc;
+  width:250px;
+}
+.profile_sidebar > .active {
+  background:#53476d !important;
+  color:white !important;
+}
+.profile_sidebar > li > a {
+  color:black !important;
+}
+
+
+
+
+/* History */
+.profile_histories {
+  margin: 5px 0px 10px 0px;
+  padding: 10px;
+  border-bottom: 1px solid #efefef;
+  width: 100%;
+}
+
+.employer_details {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #efefef;
+  font-weight: bold;
+}
+
+.profile_appointment_details {
+  margin-top: 5px;
+  border-bottom: 1px solid #efefef;
+}
+
+.employer_details > img {
+  width: 35px;
+  height: 35px;
+}
+
+.history_rating {
+  margin-top: 15px;
+}
+
+.history_rating .btn {
+  display: inline !important;
+}
+
+
+
+/* Category Analysis */
+.category_analysis_card{
+  padding: 12px 24px;
+  margin: 10px 0px 10px 0px;
+  foont-weight: bold;
+}
+
+.category_analysis_half {
+  width: 45%;
+  float: left;
+  box-sizing: border-box;
+}
+
+.category_analysis_half .display_table{
+  display: table;
+  width: 100%;
+}
+
+.category_analysis_half .display_table div:first-child{
+  color: #a5a5a5;
+  display: table-cell;
+  float: left;
+  width: 65%;
+}
+
+.category_analysis_half .display_table div:last-child{
+  //display: table;
+  width: 30%;
+  color: #494949;
+  display: table-cell;
+}
+
+.category_analysis_full {
+  width: 100%;
+  float: left;
+  box-sizing: border-box;
+}
+
+.category_analysis_full .display_table{
+  display: table;
+  width: 100%;
+}
+
+.category_analysis_full .display_table div:first-child{
+  color: #a5a5a5;
+  display: table-cell;
+  text-align: left;
+  float: left;
+  width: 55%;
+}
+
+.category_analysis_full .display_table div:last-child{
+  width: 42%;
+  color: #494949;
+  display: table-cell;
 }

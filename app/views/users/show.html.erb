@@ -10,55 +10,284 @@
           <%= @user.fullname %>
         </div>
         <div class="user_edit_profile">
-          <%= link_to edit_user_path(@user) do %>
-            <i class="glyphicon glyphicon-pencil"></i> Edit Profile
-          <% end %>
+          <!--<%= link_to @user do %>-->
+            <!--<i class="glyphicon glyphicon-pencil"></i> Edit Profile-->
+            <!--
+          <% end %>-->
+          <%= @user.email %>
+          <br/>
+          <div class='star-rating' data-score=<%= @avg_rating %>></div>
+          <em><%= "#{@reviews.size} reviews" %></em>
         </div>
       </div>
     </div>
-
-
     <br/>
-    <p>
 
-    <div>
-      <%= @user.fullname %>
-    </div>
-    <div>
-
-      <%= link_to edit_user_path(@user) do %>
-        <i class="glyphicon glyphicon-pencil"></i>
-      <% end %>
-
-    </div>
-    </p>
-    <p><%= @user.username %></p>
-    <p><%= @user.email %></p>
-    <% if @user.city %>
-      <p><%= @user.city.name %></p>
-    <% end %>
-    <hr>
-    Professionals
-    <ul>
-      <% @user.categories.each do |categ| %>
-        <li>
-          <%= categ.name %>
-        </li>
-      <% end %>
+    <ul class="nav navbar-nav profile_sidebar">
+      <li class="dropdown active open">
+        <a href="user_profile" data-target-id="user_profile" class="dropdown-toggle" data-toggle="dropdown">My Profile
+          <span class="glyphicon glyphicon-user pull-right"></span></a>
+      </li>
+      <li class="dropdown">
+        <a href="category_history" data-target-id="category_history" class="dropdown-toggle" data-toggle="dropdown">History
+          <span class="glyphicon glyphicon-menu-hamburger pull-right"></span></a>
+      </li>
+      <li class="dropdown">
+        <a href="category_analysis" data-target-id="category_analysis" class="dropdown-toggle" data-toggle="dropdown">Category
+          Analysis
+          <span class="glyphicon glyphicon-signal pull-right"></span></a>
+      </li>
+      <li class="dropdown">
+        <a href="applications" data-target-id="applications" class="dropdown-toggle" data-toggle="dropdown">Applications
+          <span class="glyphicon glyphicon-bookmark pull-right"></span></a>
+      </li>
+      <li class="dropdown">
+        <a href="my_reviews" data-target-id="my_reviews" class="dropdown-toggle" data-toggle="dropdown">Reviews
+          <span class="glyphicon glyphicon-star pull-right"></span></a>
+      </li>
+      <li class="dropdown">
+        <a href="my_reviews" data-target-id="category_history" class="dropdown-toggle" data-toggle="dropdown">Notifications
+          <span class="glyphicon glyphicon-bell pull-right"></span></a>
+      </li>
+      <li class="dropdown">
+        <a href="my_reviews" data-target-id="category_history" class="dropdown-toggle" data-toggle="dropdown">Messages
+          <span class="glyphicon glyphicon-inbox pull-right"></span></a>
+      </li>
     </ul>
-    <hr/>
+
+    <div class="user_professionals">
+      <h3>Professionals</h3>
+      <% @user.categories.each do |category| %>
+        <span class="glyphicon glyphicon-hand-right"></span>&nbsp;<%= category.name %>
+        <span class="badge badge-danger"><%= @user.application_appointment_array(@user, category.id).size %></span><br/>
+      <% end %>
+    </div>
 
   </div>
-  <!-- Differents view here -->
-  <div class="col-md-9 user_profile_display shadow">
-    <div class="user_profile_header"><h3>Manage Your Account</h3></div>
-    <div class="user_profile_body">
-      <div class="user_profile_left">
 
-      </div>
-      <div class="user_profile_right">
-        <%= render 'form' %>
-      </div>
+  <!--Differents view here-->
+  <div class="col-md-9 user_profile_display shadow" id="user_profile">
+    <div class="user_profile_header">
+      <h3>My Profile</h3>
+      <h5>Manage and protect your account</h5>
+    </div>
+    <div class="user_profile_body">
+      <%= render 'profile_form' %>
     </div>
   </div>
+
+  <!--Differents view here-->
+  <div class="col-md-9 user_profile_display shadow" id="category_history">
+    <div class="user_profile_header">
+      <h3>My History</h3>
+    </div>
+    <div class="user_profile_body">
+      <% @histories.each do |history| %>
+        <div class="profile_histories shadow">
+          <div class="employer_details">
+            <% if history.appointment.user.profile_picture.url %>
+              <%= image_tag history.appointment.user.profile_picture.url, class: 'img-circle', id: "preview" %>
+            <% else %>
+              <%= image_tag("user.png", class: 'img-circle', alt: "Preview", id: "preview") %>
+            <% end %>
+            &nbsp;
+            <span><%= history.appointment.user.fullname %></span>
+
+            <span class='star-rating' data-score=<%= history.appointment.user.average_rating(history.appointment.user) %>>
+            </span>
+
+            <button class="btn btn-info pull-right">Chat <span class="glyphicon glyphicon-send"></span></button>
+          </div>
+          <div class="profile_appointment_details">
+            <p>Title: <%= link_to history.appointment.title, history.appointment %></p>
+            <p>Category: <%= history.appointment.category.name %></p>
+            <p>Description: <%= history.appointment.description %></p>
+            <p>Status: <%= history.appointment.status_name(history.appointment.status) %></p>
+          </div>
+
+
+          <div class="history_rating">
+            <% if history.review %>
+              <span class="star-rating" data-score=<%= history.review.rating %>></span>
+              <br/>
+              <%= history.review.comment %>
+              <br/>
+              <em style="color:grey;"><%= history.review.created_at.strftime('%Y-%m-%d (%I:%M %P)') %></em>
+            <% else %>
+              Appointment in progress, no review yet.
+            <% end %>
+            <div class="pull-right">
+              <%= link_to "Check Appointment", history.appointment, class: 'btn btn-default' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+
+  <!--Differents view here-->
+  <div class="col-md-9 user_profile_display shadow" id="category_analysis">
+    <div class="user_profile_header">
+      <h3>Category Analysis</h3>
+    </div>
+
+    <% @user.categories.each do |category| %>
+      <div class="user_profile_body category_analysis">
+        <div class="col-lg-4 col-md-4 col-sm-4 shadow category_analysis_card">
+          <div class="text-center">
+            <h3><%= category.name %></h3>
+          </div>
+
+          <div class="category_analysis_half">
+            <div class="display_table">
+              <div>Applied :</div>
+              <div style="color: green;"><%= @user.application_case(@user, category.id, "applied") %></div>
+            </div>
+            <div class="display_table">
+              <div>Approve :</div>
+              <div style="color: green;"><%= @user.application_case(@user, category.id, "approve") %></div>
+            </div>
+            <div class="display_table">
+              <div>Invitation :</div>
+              <div style="color: green;"><%= @user.application_case(@user, category.id, "employer") %></div>
+            </div>
+          </div>
+
+          <div class="category_analysis_half pull-right">
+            <div class="display_table">
+              <div>Cancel :</div>
+              <div style="color: green;"><%= @user.application_case(@user, category.id, "cancel") %></div>
+            </div>
+            <div class="display_table">
+              <div>Rejected :</div>
+              <div style="color: green;"><%= @user.application_case(@user, category.id, "reject") %></div>
+            </div>
+            <div class="display_table">
+              <div>Total :</div>
+              <div style="color: green;"><%= @user.application_case(@user, category.id, "total") %></div>
+            </div>
+          </div>
+
+          <div style="clear:both"></div>
+          <hr/>
+          <div class="category_analysis_full">
+            <% if @user.appointment_by_category(@user, category.id) != nil %>
+              <div class="display_table">
+                <div>Last Appointment:</div>
+                <div><%= (@user.appointment_by_category(@user, category.id)).created_at.strftime('%Y-%m-%d') %></div>
+              </div>
+              <div class="display_table">
+                <div>Last Review :</div>
+                <div class="star-rating" data-score=<%= (@user.appointment_by_category(@user, category.id)).review %>></div>
+              </div>
+              <hr/>
+            <% else %>
+              <div class="display_table">
+                <div>Last Appointment :</div>
+                <div>No record.</div>
+              </div>
+              <hr/>
+            <% end %>
+
+
+            <div class="display_table">
+              <div>Average Review :</div>
+              <div class="star-rating" data-score=<%= @user.reviews_by_category(@user, category.id) %>></div>
+            </div>
+
+
+            <div class="display_table">
+              <div>Total Review :</div>
+              <div><em><%= "#{@user.reviews_by_category(@user, category.id, true)} reviews" %></em></div>
+            </div>
+
+            <div class="display_table">
+              <div>Best Review :</div>
+              <div class="star-rating" data-score=<%= @user.highest_rating_by_category(@user, category.id) %>></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!--Differents view here-->
+  <div class="col-md-9 user_profile_display shadow" id="applications">
+    <div class="user_profile_header">
+      <h3>Applications</h3>
+    </div>
+
+    <% @user.appointment_applicant.each do |application| %>
+      <div class="user_profile_body profile_histories shadow">
+        <div class="employer_details">
+          <% if application.appointment.user.profile_picture.url %>
+            <%= image_tag application.appointment.user.profile_picture.url, class: 'img-circle', id: "preview" %>
+          <% else %>
+            <%= image_tag("user.png", class: 'img-circle', alt: "Preview", id: "preview") %>
+          <% end %>
+          &nbsp;
+          <span><%= application.appointment.user.fullname %></span>
+
+          <span class='star-rating' data-score=<%= application.appointment.user.average_rating(application.appointment.user) %>>
+            </span>
+
+          <button class="btn btn-info pull-right">Chat <span class="glyphicon glyphicon-send"></span></button>
+        </div>
+        <div class="profile_appointment_details">
+          <p>Appointment Title: <%= application.appointment.title %></p>
+          <p>Application Status: <%= application.status_name(application.status) %></p>
+          <p>Request by: <%= application.send_by_employer == true ? "Employer" : "You" %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!--Differents view here-->
+  <div class="col-md-9 user_profile_display shadow" id="my_reviews">
+    <div class="user_profile_header">
+      <h3>Reviews</h3>
+    </div>
+
+    <% @user.reviews.each do |review| %>
+      <div class="user_profile_body profile_histories shadow">
+        <div class="employer_details">
+          <% if review.reviewer_object(review.review_by).profile_picture.url %>
+            <%= image_tag review.reviewer_object(review.review_by).profile_picture.url, class: 'img-circle', id: "preview" %>
+          <% else %>
+            <%= image_tag("user.png", class: 'img-circle', alt: "Preview", id: "preview") %>
+          <% end %>
+          &nbsp;
+          <span><%= review.reviewer_object(review.review_by).fullname %></span>
+
+          <span class='star-rating' data-score=<%= review.reviewer_object(review.review_by).average_rating(review.reviewer_object(review.review_by)) %>>
+            </span>
+
+          <button class="btn btn-info pull-right">Chat <span class="glyphicon glyphicon-send"></span></button>
+        </div>
+
+        <div class="profile_appointment_details">
+          <p>Given Rate: <span class='star-rating' data-score=<%= review.rating %>></span></p>
+          <p>Comments: <%= review.comment %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
 </div>
+
+
+
+
+
+<script>
+    $(document).on('turbolinks:load', function () {
+        $('.star-rating').raty({
+            path: '/assets/',
+            readOnly: true,
+            score: function () {
+                return $(this).attr('data-score');
+            }
+        });
+    });
+</script>

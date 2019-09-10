@@ -10,10 +10,19 @@ class User < ApplicationRecord
   has_many :appointment_applicant, class_name: "AppointmentApplication",
            foreign_key: "user_id"
 
+  has_many :applied_applications, -> { where status:1 }, class_name: "AppointmentApplication",
+           foreign_key: "user_id"
+
+  has_many :approved_applications, -> { where status:2 }, class_name: "AppointmentApplication",
+           foreign_key: "user_id"
+
+  has_many :rejected_applications, -> { where status:3 }, class_name: "AppointmentApplication",
+           foreign_key: "user_id"
+
   has_many :application, through: :appointment_applicant, source: :user
 
   attr_accessor :remember_token, :activation_token, :reset_token
-  before_save   :downcase_email
+  before_save :downcase_email
   before_create :create_activation_digest
 
   # mount_uploader :profile_picture, UserUploader
@@ -23,20 +32,99 @@ class User < ApplicationRecord
 
   VALID_EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
 
-  validates :fullname, presence: true, length: { maximum: 50 }
-  validates :username, presence: true, length: { maximum: 20 },
+  validates :fullname, presence: true, length: {maximum: 50}
+  validates :username, presence: true, length: {maximum: 20},
             uniqueness: true
-  validates :email, presence: true, length: { maximum: 255 },
-            format: { with: VALID_EMAIL_REGEX },
+  validates :email, presence: true, length: {maximum: 255},
+            format: {with: VALID_EMAIL_REGEX},
             uniqueness: true
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, :on => :create, length: {minimum: 6}
+  validates :password_confirmation, :presence => true, :on => :create
   # validates :profile_picture, presence: true
   # city_id
   # employer 1 = employer, 0 = freelancers
   validate :picture_size
 
+  # Return the
 
+  # Return average rating
+  def average_rating(user)
+    review = user.reviews.to_a
+    avg_rating = if review.blank?
+                   0
+                 else
+                   user.reviews.average(:rating).round(2)
+                 end
 
+    return avg_rating
+  end
+
+  # Returns the number of applications
+  def application_case(user, category_id, status_str)
+    case status_str
+      when "applied"
+        return application_numbers(user, application_appointment_array(user, category_id), [1, 2])
+      when "reject"
+        return application_numbers(user, application_appointment_array(user, category_id), [3])
+      when "cancel"
+        return application_numbers(user, application_appointment_array(user, category_id), [4])
+      when "approve"
+        return application_numbers(user, application_appointment_array(user, category_id), [2])
+      when "employer"
+        return application_numbers(user, application_appointment_array(user, category_id), [1, 2, 3], true)
+      when "total"
+        return application_numbers(user, application_appointment_array(user, category_id), [1, 2, 3, 4])
+    end
+  end
+
+  def application_appointment_array(user, category_id)
+    return Appointment.where("id IN (?) AND category_id = ?",
+                             get_appointment_ids(user.appointment_applicant_ids), category_id).ids
+  end
+
+  def application_numbers(user, appointment_ids, status, send_by_employer = false)
+    return AppointmentApplication.where("appointment_id IN (?) AND status IN (?) AND send_by_employer = ? AND user_id = ?",
+                                     appointment_ids, status, send_by_employer, user.id).to_a.size
+
+  end
+
+  # Returns the appointment_ids of given category_id
+  def appointment_by_category(user, category_id)
+    application_ids = user.appointment_applicant.reverse
+
+    application_ids.each do |application|
+      if application.appointment.category_id == category_id
+        return application
+      end
+    end
+
+    return nil
+  end
+
+  # Returns the average review by given category_id
+  def reviews_by_category(user, category_id, size = false)
+    application_ids_by_category = application_ids_by_category(user, category_id)
+
+    reviews = user.reviews.where("id IN (?)", application_ids_by_category).to_a
+    avg_rating = if reviews.blank?
+                   0
+                 else
+                   user.reviews.average(:rating).round(2)
+                 end
+
+    if size
+      return reviews.size
+    else
+      return avg_rating
+    end
+  end
+
+  # Return the best review value by given category_id
+  def highest_rating_by_category(user, category_id)
+    application_ids_by_category = application_ids_by_category(user, category_id)
+
+    return user.reviews.where("id in (?)", application_ids_by_category).maximum(:rating)
+  end
 
   # Returns the hash digest of the given string.
   def User.digest(string)
@@ -106,7 +194,7 @@ class User < ApplicationRecord
   # Sets the password reset attributes.
   def create_reset_digest
     self.reset_token = User.new_token
-    update_attribute(:reset_digest,  User.digest(reset_token))
+    update_attribute(:reset_digest, User.digest(reset_token))
     update_attribute(:reset_sent_at, Time.zone.now)
   end
 
@@ -120,8 +208,6 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
-  
-
   private
   # Converts email to all lower-case.
   def downcase_email
@@ -130,7 +216,7 @@ class User < ApplicationRecord
 
   # Creates and assigns the activation token and digest.
   def create_activation_digest
-    self.activation_token  = User.new_token
+    self.activation_token = User.new_token
     self.activation_digest = User.digest(activation_token)
   end
 
@@ -143,6 +229,13 @@ class User < ApplicationRecord
     end
 
     return ids_array
+  end
+
+  def application_ids_by_category(user, category_id)
+    appointment_ids = Appointment.where("id IN (?) AND category_id = ?",
+                                        get_appointment_ids(user.appointment_applicant_ids), category_id)
+
+    return user.appointment_applicant.where("appointment_id IN (?)", appointment_ids.ids).ids
   end
 
   # Validates the size of an uploaded picture.
